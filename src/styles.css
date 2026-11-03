@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/jetbrains-mono';
+
+/* Dark is the resting state, as on the reference. Light is a second surface
+   built from the same token names so every component flips with the toggle. */
+:root {
+  color-scheme: dark;
+
+  --bg: #0a0e0d;
+  --surface: #101613;
+  --surface-2: #16201b;
+  --line: #22302a;
+  --line-strong: #33473e;
+  --fg: #e7efe9;
+  --muted: #a5b4ad;
+  --faint: #71837b;
+  --accent: #34e0a1;
+  --accent-ink: #041410;
+  --grid-line: rgb(52 224 161 / 0.05);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f4f7f5;
+  --surface: #ffffff;
+  --surface-2: #ebf1ed;
+  --line: #d5e0d9;
+  --line-strong: #b3c6bc;
+  --fg: #0c1310;
+  --muted: #4b5a53;
+  --faint: #78877f;
+  --accent: #0a7d55;
+  --accent-ink: #ffffff;
+  --grid-line: rgb(10 125 85 / 0.08);
+}
+
+@theme inline {
+  --font-sans: 'Space Grotesk Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+
+  --radius-card: 4px;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--line);
+  }
+  html {
+    background: var(--bg);
+    color-scheme: inherit;
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    overscroll-behavior-y: none;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: -0.008em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+  button,
+  input,
+  textarea {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  img {
+    user-select: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+/* Display type: Space Grotesk at 600 with the reference's tight tracking. */
+@utility font-display {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+/* The page's numbered section labels and metadata lines. */
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+@utility text-pretty {
+  text-wrap: pretty;
+}
+
+/* Faint technical grid behind everything, fading out as it leaves the top. */
+@utility page-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: 50% 0;
+  mask-image: radial-gradient(130% 70% at 50% 0%, #000 20%, rgb(0 0 0 / 0.55) 60%, transparent 100%);
+}
+
+/* Underline that draws in from the left on hover. */
+@utility link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover {
+    background-size: 100% 1px;
+  }
+}
